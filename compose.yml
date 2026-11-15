@@ -8,11 +8,11 @@ services:
     environment:
       TZ: UTC
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_USER: develop
-      MYSQL_PASSWORD: develop
-      MYSQL_DATABASE: develop
+      MYSQL_USER: developer
+      MYSQL_PASSWORD: password
+      MYSQL_DATABASE: permit
     healthcheck:
-      test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost']
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 10s
       timeout: 5s
       retries: 3
