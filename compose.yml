@@ -1,0 +1,44 @@
+services:
+  permit-db:
+    image: mysql:9.7.4@sha256:df90258da46f6e7ff8574ff84f17618aba0765cac749928299c69fd4e7cb8ad8
+    volumes:
+      - ./db/data:/var/lib/mysql
+    networks:
+      - nw-holos
+    environment:
+      TZ: UTC
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: develop
+      MYSQL_PASSWORD: develop
+      MYSQL_DATABASE: develop
+    healthcheck:
+      test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost']
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  permit-api:
+    build:
+      context: .
+      dockerfile: build/package/Dockerfile.local
+    volumes:
+      - .:/workspace
+      - db_data:/workspace/db/data
+    working_dir: /workspace
+    networks:
+      - nw-holos
+    ports:
+      - 8003:8000
+    env_file:
+      - .env
+    tty: true
+    depends_on:
+      permit-db:
+        condition: service_healthy
+
+volumes:
+  db_data:
+
+networks:
+  nw-holos:
+    external: true
