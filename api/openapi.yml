@@ -1,0 +1,26 @@
+openapi: "3.0.3"
+
+info:
+  title: "holos: アクセス権限API"
+  version: ""
+
+servers:
+  - url: "http://localhost:8003"
+    description: "localhost"
+  - url: "http://storage-api:8000"
+    description: "docker compose service"
+
+paths:
+  /health:
+    get:
+      summary: "ヘルスチェック"
+      tags:
+        - "health"
+      responses:
+        204:
+          $ref: "#/components/responses/no_content"
+
+components:
+  responses:
+    no_content:
+      description: "Success"
